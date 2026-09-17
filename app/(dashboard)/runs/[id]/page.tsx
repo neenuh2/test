@@ -76,7 +76,7 @@ export default async function RunDetailPage({
         </span>
         <div className="ml-auto flex gap-2">
           <Link
-            href={`/attendance?runId=${run.id}`}
+            href={`/attendance/${run.id}`}
             className={buttonVariants({ variant: "outline", size: "sm" })}
           >
             Attendance

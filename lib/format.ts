@@ -20,3 +20,9 @@ export function formatDateTime(date: Date | string | null | undefined): string {
 export function formatPercent(value: number, digits = 0): string {
   return `${(value * 100).toFixed(digits)}%`;
 }
+
+/** A stable `yyyy-MM-dd` key in the app timezone (used for CSV import/export). */
+export function formatDateKey(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return formatInTimeZone(d, APP_TIMEZONE, "yyyy-MM-dd");
+}

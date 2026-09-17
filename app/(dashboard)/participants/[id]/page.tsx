@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteParticipant } from "../actions";
+import { ParticipantAttendanceSection } from "./attendance-section";
 
 export default async function ParticipantDetailPage({
   params,
@@ -127,7 +128,13 @@ export default async function ParticipantDetailPage({
         </CardContent>
       </Card>
 
-      {/* Attendance timeline & modules-missed arrive in Phase 2. */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold tracking-tight">Attendance</h2>
+        <ParticipantAttendanceSection
+          participantId={participant.id}
+          cohortId={participant.cohortId}
+        />
+      </div>
     </div>
   );
 }

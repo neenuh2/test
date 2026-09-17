@@ -29,7 +29,10 @@ The system is built in the phases described in `spec.md §10`. Current status:
       programs, modules (per-cohort scoping + reorder), deliverables (with per-run due
       dates), program runs, sessions, participants, and enrollments; the 5 cohorts and a
       demo dataset (2 programs, ~30 participants, runs/sessions dated around today).
-- [ ] Phase 2 — Attendance
+- [x] **Phase 2 — Attendance**: keyboard-friendly per-session attendance grid (save all at
+      once), per-session/per-run/per-cohort/per-module rollups, per-participant timeline +
+      modules-missed + attendance rate, and run-scoped CSV import with a pre-filled template
+      and a dry-run preview (create/update/reject) before commit.
 - [ ] Phase 3 — Deliverables & completion
 - [ ] Phase 4 — Due-date engine + email
 - [ ] Phase 5 — Feedback
