@@ -14,7 +14,8 @@
     "prisma:deploy": "prisma migrate deploy",
     "prisma:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma migrate reset --force",
-    "cron": "tsx scripts/cron.ts",
+    "cron": "tsx -r tsconfig-paths/register scripts/cron.ts",
+    "cron:once": "tsx -r tsconfig-paths/register scripts/cron.ts --once",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test"

@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CompletionSettingsForm } from "./settings-form";
+import { CompletionSettingsForm, ReminderSettingsForm } from "./settings-form";
 
 export default async function SettingsPage() {
   const session = await auth();
@@ -45,17 +45,27 @@ export default async function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Reminders &amp; email</CardTitle>
+          <CardTitle>Reminders</CardTitle>
           <CardDescription>
-            Reminder offsets, overdue cadence, auto-send, and SMTP are configured in Phase 4.
+            When reminder drafts are generated and whether they send automatically. SMTP
+            credentials are configured via environment variables (see <code>.env.example</code>).
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          <ul className="space-y-1">
-            <li>Upcoming offsets: {settings.reminderUpcomingOffsets.join(", ")} day(s) before due</li>
-            <li>Overdue cadence: every {settings.reminderOverdueIntervalDays} day(s), up to {settings.reminderOverdueMaxCount}×</li>
-            <li>Auto-send: {settings.emailAutoSend ? "on" : "off (review queue)"}</li>
-          </ul>
+        <CardContent>
+          {isAdmin ? (
+            <ReminderSettingsForm
+              upcomingOffsets={settings.reminderUpcomingOffsets.join(",")}
+              overdueIntervalDays={settings.reminderOverdueIntervalDays}
+              overdueMaxCount={settings.reminderOverdueMaxCount}
+              autoSend={settings.emailAutoSend}
+            />
+          ) : (
+            <ul className="space-y-1 text-sm text-muted-foreground">
+              <li>Upcoming offsets: {settings.reminderUpcomingOffsets.join(", ")} day(s) before due</li>
+              <li>Overdue cadence: every {settings.reminderOverdueIntervalDays} day(s), up to {settings.reminderOverdueMaxCount}×</li>
+              <li>Auto-send: {settings.emailAutoSend ? "on" : "off (review queue)"}</li>
+            </ul>
+          )}
         </CardContent>
       </Card>
     </div>

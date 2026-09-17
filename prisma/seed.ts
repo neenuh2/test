@@ -5,10 +5,24 @@ import {
   ProgramStatus,
   RunStatus,
   DeliveryMode,
+  NotificationType,
 } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { DEFAULT_TEMPLATES } from "../lib/email/templates";
 
 const prisma = new PrismaClient();
+
+async function seedEmailTemplates() {
+  for (const type of Object.keys(DEFAULT_TEMPLATES) as NotificationType[]) {
+    const t = DEFAULT_TEMPLATES[type];
+    await prisma.emailTemplate.upsert({
+      where: { type },
+      update: {}, // keep any in-app edits on re-seed
+      create: { type, subject: t.subject, body: t.body },
+    });
+  }
+  console.log(`Seeded ${Object.keys(DEFAULT_TEMPLATES).length} email templates`);
+}
 
 const COHORTS = [
   { code: "CSSA", name: "Customer Sales & Service Associate" },
@@ -259,6 +273,7 @@ async function seedEnrollments(
 async function main() {
   await seedUsers();
   await seedCohorts();
+  await seedEmailTemplates();
   await wipeDemoData();
   const participants = await seedParticipants();
   const { run1, run2 } = await seedPrograms();

@@ -38,7 +38,11 @@ The system is built in the phases described in `spec.md §10`. Current status:
       threshold + all applicable required deliverables) recomputed on attendance/submission
       changes; run deliverables overview with status breakdown, resolved due dates,
       completion % by cohort, and per-participant completion; Settings page for the threshold.
-- [ ] Phase 4 — Due-date engine + email
+- [x] **Phase 4 — Due-date engine + email**: nightly node-cron job (Asia/Manila) that scans
+      due dates and generates idempotent UPCOMING/DUE_TODAY/OVERDUE `NotificationLog` drafts;
+      a reminder review queue with edit, per-row send/skip, batch approve-&-send, and
+      resend-on-failure; SMTP sending via Nodemailer with DB-stored, in-app-editable HTML
+      templates; and Settings for reminder offsets, overdue cadence, and the auto-send toggle.
 - [ ] Phase 5 — Feedback
 - [ ] Phase 6 — Dashboard
 - [ ] Phase 7 — Hardening
