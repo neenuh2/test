@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tpms
+      POSTGRES_PASSWORD: tpms_password
+      POSTGRES_DB: tpms
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tpms -d tpms"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Local email testing UI at http://localhost:8025 (SMTP on 1025).
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgresql://tpms:tpms_password@db:5432/tpms?schema=public"
+      AUTH_SECRET: "${AUTH_SECRET:-dev-insecure-secret-change-me}"
+      AUTH_URL: "http://localhost:3000"
+      NEXTAUTH_URL: "http://localhost:3000"
+      SMTP_HOST: "mailhog"
+      SMTP_PORT: "1025"
+      SMTP_SECURE: "false"
+      SMTP_FROM: "Training Team <no-reply@bpi.example>"
+      APP_TIMEZONE: "Asia/Manila"
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
