@@ -25,7 +25,10 @@ The system is built in the phases described in `spec.md §10`. Current status:
 - [x] **Phase 0 — Scaffold**: Next.js + TS + Tailwind + shadcn, Prisma + Postgres via
       docker-compose, Auth.js credentials, `.env.example`, README, login page + empty
       protected dashboard shell.
-- [ ] Phase 1 — Data model + admin CRUD
+- [x] **Phase 1 — Data model + admin CRUD**: full §5 Prisma schema + migration; CRUD for
+      programs, modules (per-cohort scoping + reorder), deliverables (with per-run due
+      dates), program runs, sessions, participants, and enrollments; the 5 cohorts and a
+      demo dataset (2 programs, ~30 participants, runs/sessions dated around today).
 - [ ] Phase 2 — Attendance
 - [ ] Phase 3 — Deliverables & completion
 - [ ] Phase 4 — Due-date engine + email
@@ -73,6 +76,9 @@ npm run dev
 
 Open http://localhost:3000 and sign in with the seeded admin
 (`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` from your `.env`).
+
+The seed also creates a read-only **viewer** account for testing role-based access:
+`viewer@bpi.example` / `ChangeMe123!`.
 
 ## Running everything in Docker
 
