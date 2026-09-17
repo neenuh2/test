@@ -9,6 +9,7 @@ import { audit } from "@/lib/audit";
 import { parseCsv } from "@/lib/csv";
 import { formatDateKey } from "@/lib/format";
 import { moduleAppliesToCohort } from "@/lib/rules/attendance";
+import { recomputeRunCompletion } from "@/lib/services/completion";
 
 const statusEnum = z.enum(["PRESENT", "ABSENT", "LATE", "EXCUSED"]);
 
@@ -206,6 +207,9 @@ export async function commitAttendanceImport(
     meta: { imported: toApply.length, source: "csv" },
   });
 
+  await recomputeRunCompletion(runId);
+
   revalidatePath(`/attendance/${runId}`);
+  revalidatePath(`/deliverables/${runId}`);
   return { ...result, committed: toApply.length };
 }

@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/rbac";
 import { audit } from "@/lib/audit";
 import { runAction, type ActionState } from "@/lib/action-result";
+import { recomputeRunCompletion } from "@/lib/services/completion";
 
 const statusEnum = z.enum(["PRESENT", "ABSENT", "LATE", "EXCUSED"]);
 
@@ -60,13 +61,19 @@ export async function saveAttendance(
       meta: { count: updates.length },
     });
 
-    // Refresh the grid, run overview, and any participant views.
-    revalidatePath(`/attendance/sessions/${sessionId}`);
+    // Attendance affects completion — recompute for the run.
     const session = await prisma.session.findUnique({
       where: { id: sessionId },
       select: { programRunId: true },
     });
-    if (session) revalidatePath(`/attendance/${session.programRunId}`);
+    if (session) await recomputeRunCompletion(session.programRunId);
+
+    // Refresh the grid, run overview, and any participant/completion views.
+    revalidatePath(`/attendance/sessions/${sessionId}`);
+    if (session) {
+      revalidatePath(`/attendance/${session.programRunId}`);
+      revalidatePath(`/deliverables/${session.programRunId}`);
+    }
     return { ok: true };
   });
 }

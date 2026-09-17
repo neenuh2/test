@@ -81,6 +81,12 @@ export default async function RunDetailPage({
           >
             Attendance
           </Link>
+          <Link
+            href={`/deliverables/${run.id}`}
+            className={buttonVariants({ variant: "outline", size: "sm" })}
+          >
+            Deliverables
+          </Link>
           {isAdmin && (
             <>
               <Link

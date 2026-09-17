@@ -33,7 +33,11 @@ The system is built in the phases described in `spec.md §10`. Current status:
       once), per-session/per-run/per-cohort/per-module rollups, per-participant timeline +
       modules-missed + attendance rate, and run-scoped CSV import with a pre-filled template
       and a dry-run preview (create/update/reject) before commit.
-- [ ] Phase 3 — Deliverables & completion
+- [x] **Phase 3 — Deliverables & completion**: submission grid (status/remarks/file link) with
+      auto LATE flagging and OVERDUE display; configurable completion rule (attendance
+      threshold + all applicable required deliverables) recomputed on attendance/submission
+      changes; run deliverables overview with status breakdown, resolved due dates,
+      completion % by cohort, and per-participant completion; Settings page for the threshold.
 - [ ] Phase 4 — Due-date engine + email
 - [ ] Phase 5 — Feedback
 - [ ] Phase 6 — Dashboard
